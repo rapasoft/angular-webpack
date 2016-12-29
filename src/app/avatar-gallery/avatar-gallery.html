@@ -1,0 +1,13 @@
+<div ng-strict-di="true">
+    <h1>User Avatar Gallery</h1>
+    <slideshow-navigation
+            number-of-pages="$ctrl.numberOfPages"
+            current-page="$ctrl.currentPage"
+            next-page="$ctrl.loadPage($ctrl.currentPage + 1)"
+            previous-page="$ctrl.loadPage($ctrl.currentPage - 1)"
+            go-to-page="$ctrl.loadPage(page)"
+    >
+    </slideshow-navigation>
+    <slideshow photos="$ctrl.photos">
+    </slideshow>
+</div>
