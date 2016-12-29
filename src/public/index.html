@@ -8,8 +8,8 @@
 
     <base href="/">
 </head>
-<body>
-<main-navigation></main-navigation>
+<body ng-controller="AppController as $ctrl">
+<main-navigation status="$ctrl.status"></main-navigation>
 <main>
     <ui-view></ui-view>
 </main>

@@ -1,4 +1,5 @@
 @navHeight: 50px;
+@navBgColor: #FFAA22;
 
 nav {
   display: inline-block;
@@ -6,10 +7,11 @@ nav {
   padding: 0;
   width: 100%;
   height: @navHeight;
-  background-color: rgb(200, 100, 100);
+  background-color: @navBgColor;
 
   ul {
     display: flex;
+    flex-direction: row;
     padding: 0;
     margin: 0;
 
@@ -26,10 +28,29 @@ nav {
       cursor: pointer;
 
       &.active {
-        background-color: rgba(200, 100, 100, 0.5);
+        background-color: darken(@navBgColor, 20%);
       }
       &:hover {
-        background-color: rgb(255, 100, 100);
+        background-color:  darken(@navBgColor, 50%);
+      }
+
+      &.status {
+        flex-grow: 2;
+        text-align: right;
+
+        &.active {
+          background-color: @navBgColor;
+        }
+        &:hover {
+          background-color: @navBgColor;
+        }
+        div.status-indicator {
+          width: @navHeight / 4;
+          height: @navHeight / 4;
+          background-color: lightgrey;
+          border-radius: @navHeight / 4;
+          display: inline-block;
+        }
       }
     }
 

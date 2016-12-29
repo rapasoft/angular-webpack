@@ -2,5 +2,10 @@
     <ul>
         <li ui-sref="home" ui-sref-active="active">Home</li>
         <li ui-sref="avatar-gallery" ui-sref-active="active">User avatar gallery</li>
+        <li class="status">
+            <div class="status-indicator" ng-style="$ctrl.status === 'Online' && {'background-color':'green'} || $ctrl.status === 'Offline' && {'background-color':'red'}">
+            </div>
+            {{$ctrl.status}}
+        </li>
     </ul>
 </nav>

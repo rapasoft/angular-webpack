@@ -10,7 +10,7 @@ export default class SlideshowService {
       .get(`/api/random-image/list?page=${page}`)
       .then(result => result.data)
       .then(images => images.map((image) => new Image(image.name, image.url)))
-      .catch(() => Promise.reject('Unable to get list of photos'));
+      .catch(() => [new Image('', '/img/notfound.png')]);
   }
 
   static slideshowServiceFactory($http) {

@@ -1,7 +1,10 @@
 import template from './main-navigation.html';
 
 const mainNavigation = {
-  template
+  template,
+  bindings: {
+    status: '<'
+  }
 };
 
 export default mainNavigation;

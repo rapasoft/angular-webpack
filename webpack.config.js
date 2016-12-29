@@ -21,7 +21,8 @@ module.exports = function makeWebpackConfig() {
   const config = {};
 
   config.entry = isTest ? {} : {
-    app: path.resolve(__dirname, 'src/app/app.js')
+    app: path.resolve(__dirname, 'src/app/app.js'),
+    ['serviceWorker']: path.resolve(__dirname, 'src/app/service-worker.js')
   };
 
   config.output = isTest ? {} : {
@@ -40,7 +41,9 @@ module.exports = function makeWebpackConfig() {
   }
 
   config.module = {
-    preLoaders: [],
+    preLoaders: [
+      { test: /\.json$/, loader: 'json'},
+    ],
     loaders: [{
       test: /\.js$/,
       loader: 'babel',
@@ -108,6 +111,9 @@ module.exports = function makeWebpackConfig() {
     stats: 'minimal',
     proxy: {
       '/api': {
+        target: 'http://localhost:8080'
+      },
+      '/websocket': {
         target: 'http://localhost:8080'
       }
     },
