@@ -10,7 +10,8 @@ class AvatarGalleryController {
   }
 
   loadPage(page = 0) {
-    this.slideshowService.getPhotos(page).then(this.setState.bind(this));
+    this.slideshowService.getPhotos(page)
+      .then(this.setState.bind(this));
     this.currentPage = page;
   }
 
