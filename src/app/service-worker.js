@@ -1,4 +1,6 @@
 /*eslint no-console: ["error", { allow: ["info"] }] */
+const log = (messages) => console.info('[ServiceWorker]', ...messages);
+
 const CACHE_NAME = 'angular-test-cache';
 
 const STATIC_ASSETS = [
@@ -8,40 +10,29 @@ const STATIC_ASSETS = [
   '/img/favicon.ico'
 ];
 
-const DYNAMIC_ASSETS_MATCHER = /(https:\/\/api\.adorable\.io\/.*)|(http:\/\/localhost.*?\/api\/.*)/;
-
 self.addEventListener('install', (event) =>
   event.waitUntil(
     caches
       .open(CACHE_NAME)
       .then((cache) => {
-        console.info('[SW]', 'Static assets added to cache: ', STATIC_ASSETS);
+        log(['Static assets added to cache: ', STATIC_ASSETS]);
         return cache.addAll(STATIC_ASSETS);
       })
   )
 );
 
-const cacheApiResponse = (event) =>
-  caches
-    .open(CACHE_NAME)
-    .then((cache) => {
-      if (event.request.url.match(DYNAMIC_ASSETS_MATCHER)) {
-        fetch(event.request)
-          .then((response) => cache.put(event.request, response))
-          .catch((err) => console.info('[SW]', 'Failed to update cache', err));
-        return Promise.resolve(true);
-      }
-      return Promise.resolve(false);
-    });
-
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches
       .match(event.request)
-      .then((response) => response || fetch(event.request))
+      .then((response) => {
+        if (response) {
+          log([event.request.url, 'Retrieved from cache']);
+          return response;
+        }
+        return fetch(event.request).catch(() => log(['An error has occured']));
+      })
   );
-
-  event.waitUntil(cacheApiResponse(event));
 });
 
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));

@@ -27,5 +27,5 @@ angular
   .config(stateProvider);
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/serviceWorker.bundle.js');
+  navigator.serviceWorker.register('/serviceWorker.bundle.js', { scope: '/' });
 }

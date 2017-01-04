@@ -2,6 +2,8 @@
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
+const log = (messages) => console.info('[WebSocket]', ...messages);
+
 const STATUS_OK = 'Online';
 const STATUS_NOK = 'Offline';
 const CONNECTION_OPTIONS = {};
@@ -9,7 +11,7 @@ const CONNECTION_OPTIONS = {};
 class StatusCheck {
 
   checkIfOfflineAndNotify(setStatus) {
-    console.info('[WS]', 'Connecting to websocket');
+    log(['Connecting to websocket']);
     const socket = new SockJS('/websocket');
 
     this.stompClient = Stomp.over(socket);
@@ -19,11 +21,11 @@ class StatusCheck {
       CONNECTION_OPTIONS,
       () => {
         this.stompClient.subscribe('/topic/health-check', () => setStatus(STATUS_OK));
-        console.info('[WS]', 'Connected!');
+        log(['Connected!']);
       },
       () => {
         setStatus(STATUS_NOK);
-        console.info('[WS]', 'Connection lost, trying to reconnect in 3 seconds...');
+        log(['Connection lost, trying to reconnect in 3 seconds...']);
         setTimeout(() => this.checkIfOfflineAndNotify(setStatus), 3000);
       }
     );
